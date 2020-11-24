@@ -11,6 +11,7 @@ namespace AddressBookADO.NET
         SqlConnection connection = new SqlConnection(connectionString);
 
         /// <summary>
+        /// UC1
         /// Gets all contacts.
         /// </summary>
         /// <exception cref="System.Exception"></exception>
@@ -55,6 +56,38 @@ namespace AddressBookADO.NET
                 }
             }
            catch(Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// UC2
+        /// Updates the contact table.
+        /// </summary>
+        /// <returns></returns>
+        public bool UpdateContactTable()
+        {
+            try
+            {
+                string query = @"update New_Address_Book set Address = 'Banjara Hills' , City = 'Hyderabad' where  Id = 3";
+                using (this.connection)
+                {
+                    SqlCommand command = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    int result = command.ExecuteNonQuery();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch(Exception e)
             {
                 throw new Exception(e.Message);
             }
