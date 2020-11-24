@@ -19,5 +19,6 @@ namespace AddressBookADO.NET
         public int TypeId { get; set; }
         public string Type { get; set; }
         public int BookId { get; set; }
+        public DateTime AddedDate { get; set; }
     }
 }
