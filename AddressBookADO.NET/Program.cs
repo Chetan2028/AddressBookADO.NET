@@ -2,11 +2,13 @@
 
 namespace AddressBookADO.NET
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Welcome to Address book Service");
+            AddressBookRepo addressBookRepo = new AddressBookRepo();
+            addressBookRepo.GetAllContacts();
         }
     }
 }
