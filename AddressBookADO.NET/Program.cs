@@ -8,7 +8,8 @@ namespace AddressBookADO.NET
         {
             Console.WriteLine("Welcome to Address book Service");
             AddressBookRepo addressBookRepo = new AddressBookRepo();
-            addressBookRepo.RetrieveContactWithinDateRange();
+            //addressBookRepo.RetrieveContactByState();
+            addressBookRepo.RetrieveContactByCity();
         }
     }
 }
