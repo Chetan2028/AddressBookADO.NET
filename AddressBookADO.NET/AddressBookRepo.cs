@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace AddressBookADO.NET
 {
     public class AddressBookRepo
     {
-        private static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AddressBook_Service;Integrated Security=True";
+        public static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AddressBook_Service;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionString);
 
         /// <summary>
@@ -268,7 +271,8 @@ namespace AddressBookADO.NET
         {
             try
             {
-                using (this.connection)
+                SqlConnection connection = new SqlConnection(connectionString);
+                using (connection)
                 {
                     // Created instance of the given query and connection
                     SqlCommand command = new SqlCommand("spAddContact", this.connection);
@@ -307,6 +311,30 @@ namespace AddressBookADO.NET
                 this.connection.Close();
             }
             return false;
+        }
+
+        /// <summary>
+        /// UC21
+        /// Adds the contact to database using threads.
+        /// </summary>
+        /// <param name="contacts">The contacts.</param>
+        public void AddContactToDbUsingThreads(List<AddressBookModel> contacts)
+        {
+            
+            contacts.ForEach(contactData =>
+            {
+                Task thread = new Task(() =>
+                {
+                    Console.WriteLine("Contact Being Added : " + contactData.FirstName);
+                    AddContactToDatabase(contactData);
+                    Console.WriteLine("Contact Added : " + contactData.FirstName);
+                   
+                });
+                //Starting thread
+                thread.Start();
+                //Asking thread to wait unless one thread finishes the operation
+                thread.Wait();
+            });
         }
     }
 }
