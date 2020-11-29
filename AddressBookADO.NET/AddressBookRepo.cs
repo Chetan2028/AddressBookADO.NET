@@ -284,8 +284,7 @@ namespace AddressBookADO.NET
                     command.Parameters.AddWithValue("@Zip", model.Zip);
                     command.Parameters.AddWithValue("@Phone_Number", model.PhoneNumber);
                     command.Parameters.AddWithValue("@Email", model.Email);
-                    command.Parameters.AddWithValue("@AddressBook_Name", model.BookName);
-                    command.Parameters.AddWithValue("@Type", model.Type);
+                    command.Parameters.AddWithValue("@AddedDate", model.AddedDate);
 
                     this.connection.Open();
                     var result = command.ExecuteNonQuery();
