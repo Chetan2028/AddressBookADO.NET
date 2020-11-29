@@ -17,8 +17,7 @@ namespace AddressBookADO.NET
             model.Zip = 410256;
             model.PhoneNumber = "8523146978";
             model.Email = "ayush@gmail.com";
-            model.BookName = "GogteCollege";
-            model.Type = "Family";
+            model.AddedDate = Convert.ToDateTime("2020-12-30");
 
            var result = addressBookRepo.AddContactToDatabase(model);
             Console.WriteLine("Contact added to database : " + result);
