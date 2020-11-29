@@ -23,7 +23,7 @@ namespace AddressBookADO.NET
 
         public AddressBookModel() { }
 
-        public AddressBookModel(string FirstName, string LastName, string Address, string City, string State, int Zip, string PhoneNumber, string Email, string BookName, string Type)
+        public AddressBookModel(string FirstName, string LastName, string Address, string City, string State, int Zip, string PhoneNumber, string Email, DateTime AddedDate)
         {
             this.FirstName = FirstName;
             this.LastName = LastName;
@@ -33,8 +33,7 @@ namespace AddressBookADO.NET
             this.Zip = Zip;
             this.PhoneNumber = PhoneNumber;
             this.Email = Email;
-            this.BookName = BookName;
-            this.Type = Type;
+            this.AddedDate = AddedDate;
         }
     }
 }
