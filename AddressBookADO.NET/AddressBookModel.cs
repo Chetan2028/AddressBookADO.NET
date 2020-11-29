@@ -20,5 +20,21 @@ namespace AddressBookADO.NET
         public string Type { get; set; }
         public int BookId { get; set; }
         public DateTime AddedDate { get; set; }
+
+        public AddressBookModel() { }
+
+        public AddressBookModel(string FirstName, string LastName, string Address, string City, string State, int Zip, string PhoneNumber, string Email, string BookName, string Type)
+        {
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.Address = Address;
+            this.City = City;
+            this.State = State;
+            this.Zip = Zip;
+            this.PhoneNumber = PhoneNumber;
+            this.Email = Email;
+            this.BookName = BookName;
+            this.Type = Type;
+        }
     }
 }

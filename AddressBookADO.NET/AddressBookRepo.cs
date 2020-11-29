@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
 
 namespace AddressBookADO.NET
 {
     public class AddressBookRepo
     {
-        private static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AddressBook_Service;Integrated Security=True";
+        public static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AddressBook_Service;Integrated Security=True";
         SqlConnection connection = new SqlConnection(connectionString);
 
         /// <summary>
@@ -258,6 +261,80 @@ namespace AddressBookADO.NET
             {
                 this.connection.Close();
             }
+        }
+
+        /// <summary>
+        /// Adds the contact to database.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        public bool AddContactToDatabase(AddressBookModel model)
+        {
+            try
+            {
+                SqlConnection connection = new SqlConnection(connectionString);
+                using (connection)
+                {
+                    // Created instance of the given query and connection
+                    SqlCommand command = new SqlCommand("spAddContact", this.connection);
+                    // Command type  as text for stored procedure
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    // Adds the values to the stored procedure
+
+                    command.Parameters.AddWithValue("@First_Name", model.FirstName);
+                    command.Parameters.AddWithValue("@Last_Name", model.LastName);
+                    command.Parameters.AddWithValue("@Address", model.Address);
+                    command.Parameters.AddWithValue("@City", model.City);
+                    command.Parameters.AddWithValue("@State", model.State);
+                    command.Parameters.AddWithValue("@Zip", model.Zip);
+                    command.Parameters.AddWithValue("@Phone_Number", model.PhoneNumber);
+                    command.Parameters.AddWithValue("@Email", model.Email);
+                    command.Parameters.AddWithValue("@AddressBook_Name", model.BookName);
+                    command.Parameters.AddWithValue("@Type", model.Type);
+
+                    this.connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    this.connection.Close();
+
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// UC21
+        /// Adds the contact to database using threads.
+        /// </summary>
+        /// <param name="contacts">The contacts.</param>
+        public void AddContactToDbUsingThreads(List<AddressBookModel> contacts)
+        {
+            
+            contacts.ForEach(contactData =>
+            {
+                Task thread = new Task(() =>
+                {
+                    Console.WriteLine("Contact Being Added : " + contactData.FirstName);
+                    AddContactToDatabase(contactData);
+                    Console.WriteLine("Contact Added : " + contactData.FirstName);
+                   
+                });
+                //Starting thread
+                thread.Start();
+                //Asking thread to wait unless one thread finishes the operation
+                thread.Wait();
+            });
         }
     }
 }
