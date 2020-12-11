@@ -312,6 +312,7 @@ namespace AddressBookADO.NET
             return false;
         }
 
+
         /// <summary>
         /// UC21
         /// Adds the contact to database using threads.
